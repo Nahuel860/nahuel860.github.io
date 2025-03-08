@@ -1,12 +1,157 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saludo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong - Cancha de Fútbol</title>
 </head>
 <body>
-  <h1>¡Hola, bienvenido a mi página web!</h1>
-  <p>Gracias por visitar. Espero que tengas un excelente día.</p>
+    <canvas id="pong" width="800" height="400"></canvas>
+    <script>
+        // Selección del canvas y su contexto
+        const canvas = document.getElementById('pong');
+        const context = canvas.getContext('2d');
+
+        // Crear raqueta
+        function createPaddle(x, y, width, height) {
+            return { x, y, width, height, dy: 0, speed: 6 };
+        }
+
+        // Crear pelota
+        function createBall(x, y, radius, speed) {
+            return { x, y, radius, speed, dx: speed, dy: speed };
+        }
+
+        // Objetos del juego
+        const paddleWidth = 10, paddleHeight = 100;
+        const player = createPaddle(10, canvas.height / 2 - 50, paddleWidth, paddleHeight);
+        const ai = createPaddle(canvas.width - 20, canvas.height / 2 - 50, paddleWidth, paddleHeight);
+        const ball = createBall(canvas.width / 2, canvas.height / 2, 8, 4);
+
+        // Dibujar cancha de fútbol
+        function drawField() {
+            // Fondo verde
+            context.fillStyle = 'green';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Líneas blancas
+            context.strokeStyle = 'white';
+            context.lineWidth = 4;
+
+            // Línea central
+            context.beginPath();
+            context.moveTo(canvas.width / 2, 0);
+            context.lineTo(canvas.width / 2, canvas.height);
+            context.stroke();
+
+            // Círculo central
+            context.beginPath();
+            context.arc(canvas.width / 2, canvas.height / 2, 50, 0, Math.PI * 2);
+            context.stroke();
+
+            // Arcos (rectángulos)
+            context.strokeRect(0, canvas.height / 3, 40, canvas.height / 3); // Arco izquierdo
+            context.strokeRect(canvas.width - 40, canvas.height / 3, 40, canvas.height / 3); // Arco derecho
+        }
+
+        // Dibujar rectángulos (raquetas)
+        function drawRect(x, y, width, height, color) {
+            context.fillStyle = color;
+            context.fillRect(x, y, width, height);
+        }
+
+        // Dibujar pelota
+        function drawBall(x, y, radius) {
+            context.fillStyle = 'white';
+            context.beginPath();
+            context.arc(x, y, radius, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+        }
+
+        // Dibujar todos los elementos
+        function draw() {
+            drawField(); // Cancha de fútbol
+            drawRect(player.x, player.y, player.width, player.height, 'black'); // Raqueta del jugador
+            drawRect(ai.x, ai.y, ai.width, ai.height, 'black'); // Raqueta de la IA
+            drawBall(ball.x, ball.y, ball.radius); // Pelota
+        }
+
+        // Movimiento de la pelota y lógica de colisiones
+        function update() {
+            // Movimiento de la pelota
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Rebote en la parte superior e inferior
+            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+                ball.dy = -ball.dy;
+            }
+
+            // Rebote en las raquetas
+            if (ball.x - ball.radius < player.x + player.width &&
+                ball.y > player.y &&
+                ball.y < player.y + player.height) {
+                ball.dx = -ball.dx;
+                increaseBallSpeed(); // Incrementar velocidad al golpear la raqueta
+            }
+
+            if (ball.x + ball.radius > ai.x &&
+                ball.y > ai.y &&
+                ball.y < ai.y + ai.height) {
+                ball.dx = -ball.dx;
+                increaseBallSpeed(); // Incrementar velocidad al golpear la raqueta
+            }
+
+            // IA sigue la pelota
+            ai.y += (ball.y - (ai.y + ai.height / 2)) * 0.09;
+
+            // Movimiento del jugador
+            player.y += player.dy;
+
+            // Límite del jugador en la cancha
+            if (player.y < 0) player.y = 0;
+            if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+
+            // Reiniciar la pelota si sale de la cancha
+            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+                resetBall();
+            }
+        }
+
+        // Incrementar la velocidad de la pelota
+        function increaseBallSpeed() {
+            ball.dx *= 1.05;
+            ball.dy *= 1.05;
+        }
+
+        // Reiniciar la pelota
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = Math.sign(ball.dx) * 4;
+            ball.dy = Math.sign(ball.dy) * 4;
+        }
+
+        // Control del jugador (teclas W y S)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'w' || e.key === 'W') player.dy = -player.speed;
+            if (e.key === 's' || e.key === 'S') player.dy = player.speed;
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'w' || e.key === 'W' || e.key === 's' || e.key === 'S') player.dy = 0;
+        });
+
+        // Bucle principal
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Iniciar el juego
+        gameLoop();
+    </script>
 </body>
 </html>
