@@ -3,39 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pong Game</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: black;
-    }
-
-    canvas {
-      border: 2px solid white;
-    }
-  </style>
+  <title>Saludo</title>
 </head>
 <body>
-  <canvas id="pong" width="800" height="400"></canvas>
-
-  <script>
-    const canvas = document.getElementById("pong");
-    const ctx = canvas.getContext("2d");
-
-    // Crear la pala y pelota
-    const paddleWidth = 10, paddleHeight = 100;
-    const ballSize = 10;
-    let paddleSpeed = 30;
-    
-    // Posiciones iniciales de las palas
-    let leftPaddle = { x: 0, y: canvas.height / 2 - paddleHeight / 2, dy: 0 };
-    let rightPaddle = { x: canvas.width - paddleWidth, y: canvas.height / 2 - paddleHeight / 2, dy: 0 };
-    
-    // Pelota
-    let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: 4, dy: 4 };
-
-    // Dibuja
+  <h1>¡Hola, bienvenido a mi página web!</h1>
+  <p>Gracias por visitar. Espero que tengas un excelente día.</p>
+</body>
+</html>
