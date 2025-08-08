@@ -1,157 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong - Cancha de Fútbol</title>
+  <meta charset="UTF-8">
+  <title>Generador Musical Delicado</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #fff0f5;
+      color: #f99fc9;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 40px;
+      color: #f99fc9;
+    }
+
+    .contenedor {
+        font-weight: bold;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .bloque {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .titulo {
+      font-size: 2.2em;
+      font-style:italic
+      margin-bottom: 10px;
+      color: #f9a8c2;
+    }
+
+    .contenido {
+     font-weight: bold;
+      border: 3px solid #f99fc9;
+      border-radius: 20px;
+      width: 180px;
+      height: 120px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3em;
+      color: #d95f94;
+      box-shadow: 0 0 10px rgba(255, 182, 193, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .contenido:empty::before {
+      content: "-";
+      color: #ccc;
+    }
+
+    button {
+      padding: 20px 45px;
+      font-size: 2em;
+      background-color: #ffcde1;
+      border: none;
+      border-radius: 10px;
+      color: #822c4e;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: transform 0.1s ease, background-color 0.3s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    button:hover {
+      background-color: #ffb8d0;
+    }
+  </style>
 </head>
 <body>
-    <canvas id="pong" width="800" height="400"></canvas>
-    <script>
-        // Selección del canvas y su contexto
-        const canvas = document.getElementById('pong');
-        const context = canvas.getContext('2d');
 
-        // Crear raqueta
-        function createPaddle(x, y, width, height) {
-            return { x, y, width, height, dy: 0, speed: 6 };
-        }
+  <h1>🎵 Generador Musical 🎶</h1>
 
-        // Crear pelota
-        function createBall(x, y, radius, speed) {
-            return { x, y, radius, speed, dx: speed, dy: speed };
-        }
+  <div class="contenedor">
+    <div class="bloque">
+      <div class="titulo">Nota</div>
+      <div class="contenido" id="nota"></div>
+    </div>
+    <div class="bloque">
+      <div class="titulo">Escala</div>
+      <div class="contenido" id="escala"></div>
+    </div>
+    <div class="bloque">
+      <div class="titulo">Ritmo</div>
+      <div class="contenido" id="ritmo"></div>
+    </div>
+    <div class="bloque">
+      <div class="titulo">Movimiento</div>
+      <div class="contenido" id="movimiento"></div>
+    </div>
+  </div>
 
-        // Objetos del juego
-        const paddleWidth = 10, paddleHeight = 100;
-        const player = createPaddle(10, canvas.height / 2 - 50, paddleWidth, paddleHeight);
-        const ai = createPaddle(canvas.width - 20, canvas.height / 2 - 50, paddleWidth, paddleHeight);
-        const ball = createBall(canvas.width / 2, canvas.height / 2, 8, 4);
+  <button onclick="generar()">Generar 🎲</button>
 
-        // Dibujar cancha de fútbol
-        function drawField() {
-            // Fondo verde
-            context.fillStyle = 'green';
-            context.fillRect(0, 0, canvas.width, canvas.height);
+  <script>
+    const notas = ["Do", "Do♯/Re♭", "Re", "Re♯/Mi♭", "Mi", "Fa", "Fa♯/Sol♭", "Sol", "Sol♯/La♭", "La", "La♯/Si♭", "Si"];
+    const escalas = ["May – Mayor", "Min – Menor natural", "Arm – Menor armónica", "Mel – Menor melódica",
+                     "P. May – Pentatónica mayor", "P. Min – Pentatónica menor", "Blu – Blues",
+                     "Dor – Dórica", "Fri – Frigia", "Lid – Lidia", "Mix – Mixolidia", "Loc – Locria"];
+    const ritmos = ["Negras (♩)", "Corcheas (♪)", "Tresillos (♩♩♩)", "Semicorcheas (♬♬)",
+                    "♪. ♬", "Síncopa (♪–♩–♪)", "Swing", "Contratiempo"];
+    const movimientos = ["Segundas (escala paso a paso)", "Terceras (Do–Mi–Re–Fa...)", "Cuartas", 
+                         "Quintas", "Saltos de sexta", "Arpegios (I–III–V)"];
 
-            // Líneas blancas
-            context.strokeStyle = 'white';
-            context.lineWidth = 4;
+    function alAzar(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-            // Línea central
-            context.beginPath();
-            context.moveTo(canvas.width / 2, 0);
-            context.lineTo(canvas.width / 2, canvas.height);
-            context.stroke();
+    function generar() {
+      document.getElementById("nota").textContent = alAzar(notas);
+      document.getElementById("escala").textContent = alAzar(escalas);
+      document.getElementById("ritmo").textContent = alAzar(ritmos);
+      document.getElementById("movimiento").textContent = alAzar(movimientos);
+    }
+  </script>
 
-            // Círculo central
-            context.beginPath();
-            context.arc(canvas.width / 2, canvas.height / 2, 50, 0, Math.PI * 2);
-            context.stroke();
-
-            // Arcos (rectángulos)
-            context.strokeRect(0, canvas.height / 3, 40, canvas.height / 3); // Arco izquierdo
-            context.strokeRect(canvas.width - 40, canvas.height / 3, 40, canvas.height / 3); // Arco derecho
-        }
-
-        // Dibujar rectángulos (raquetas)
-        function drawRect(x, y, width, height, color) {
-            context.fillStyle = color;
-            context.fillRect(x, y, width, height);
-        }
-
-        // Dibujar pelota
-        function drawBall(x, y, radius) {
-            context.fillStyle = 'white';
-            context.beginPath();
-            context.arc(x, y, radius, 0, Math.PI * 2, false);
-            context.closePath();
-            context.fill();
-        }
-
-        // Dibujar todos los elementos
-        function draw() {
-            drawField(); // Cancha de fútbol
-            drawRect(player.x, player.y, player.width, player.height, 'black'); // Raqueta del jugador
-            drawRect(ai.x, ai.y, ai.width, ai.height, 'black'); // Raqueta de la IA
-            drawBall(ball.x, ball.y, ball.radius); // Pelota
-        }
-
-        // Movimiento de la pelota y lógica de colisiones
-        function update() {
-            // Movimiento de la pelota
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-
-            // Rebote en la parte superior e inferior
-            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-                ball.dy = -ball.dy;
-            }
-
-            // Rebote en las raquetas
-            if (ball.x - ball.radius < player.x + player.width &&
-                ball.y > player.y &&
-                ball.y < player.y + player.height) {
-                ball.dx = -ball.dx;
-                increaseBallSpeed(); // Incrementar velocidad al golpear la raqueta
-            }
-
-            if (ball.x + ball.radius > ai.x &&
-                ball.y > ai.y &&
-                ball.y < ai.y + ai.height) {
-                ball.dx = -ball.dx;
-                increaseBallSpeed(); // Incrementar velocidad al golpear la raqueta
-            }
-
-            // IA sigue la pelota
-            ai.y += (ball.y - (ai.y + ai.height / 2)) * 0.09;
-
-            // Movimiento del jugador
-            player.y += player.dy;
-
-            // Límite del jugador en la cancha
-            if (player.y < 0) player.y = 0;
-            if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
-
-            // Reiniciar la pelota si sale de la cancha
-            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-                resetBall();
-            }
-        }
-
-        // Incrementar la velocidad de la pelota
-        function increaseBallSpeed() {
-            ball.dx *= 1.05;
-            ball.dy *= 1.05;
-        }
-
-        // Reiniciar la pelota
-        function resetBall() {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height / 2;
-            ball.dx = Math.sign(ball.dx) * 4;
-            ball.dy = Math.sign(ball.dy) * 4;
-        }
-
-        // Control del jugador (teclas W y S)
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'w' || e.key === 'W') player.dy = -player.speed;
-            if (e.key === 's' || e.key === 'S') player.dy = player.speed;
-        });
-
-        window.addEventListener('keyup', (e) => {
-            if (e.key === 'w' || e.key === 'W' || e.key === 's' || e.key === 'S') player.dy = 0;
-        });
-
-        // Bucle principal
-        function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        // Iniciar el juego
-        gameLoop();
-    </script>
 </body>
 </html>
