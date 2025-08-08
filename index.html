@@ -2,24 +2,23 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Generador Musical Delicado</title>
+  <title>Generador Musical</title>
   <style>
     body {
       font-family: 'Courier New', monospace;
-      background: #fff0f5;
+      background: #ffeef5;
       color: #f99fc9;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
     }
 
     h1 {
       font-size: 2em;
-      margin-bottom: 40px;
-      color: #f99fc9;
+      margin-bottom: 30px;
+      color: #f480b6;
     }
 
     .contenedor {
-        font-weight: bold;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -34,26 +33,25 @@
     }
 
     .titulo {
-      font-size: 2.2em;
-      font-style:italic
+      font-size: 1.3em;
       margin-bottom: 10px;
-      color: #f9a8c2;
+      color: #f48ab6;
+      font-weight: bold;
     }
 
     .contenido {
-     font-weight: bold;
       border: 3px solid #f99fc9;
       border-radius: 20px;
-      width: 180px;
-      height: 120px;
+      width: 160px;
+      height: 100px;
       background: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3em;
+      font-size: 1.2em;
       color: #d95f94;
       box-shadow: 0 0 10px rgba(255, 182, 193, 0.3);
-      transition: transform 0.3s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
     .contenido:empty::before {
@@ -62,29 +60,54 @@
     }
 
     button {
-      padding: 20px 45px;
-      font-size: 2em;
+      padding: 12px 30px;
+      font-size: 1.2em;
       background-color: #ffcde1;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       color: #822c4e;
       cursor: pointer;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.1s ease, background-color 0.3s;
     }
 
     button:active {
-      transform: scale(0.95);
+      transform: scale(0.96);
     }
 
     button:hover {
       background-color: #ffb8d0;
     }
+
+    .nuri-section {
+      margin-top: 40px;
+      text-align: right;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .nuri-text {
+      font-size: 0.9em;
+      color: #e08bb7;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 10px;
+    }
+
+    .nuri-text strong {
+      color: #ff69b4;
+    }
+
+    .nuri-img {
+      width: 100px;
+      border: 3px solid #f99fc9;
+      border-radius: 12px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>🎵 Generador Musical 🎶</h1>
+  <h1>🎵 Generador Musical 🎵</h1>
 
   <div class="contenedor">
     <div class="bloque">
@@ -106,6 +129,13 @@
   </div>
 
   <button onclick="generar()">Generar 🎲</button>
+
+  <div class="nuri-section">
+    <p class="nuri-text">
+      Si te toca un <strong>NURI</strong> de la <strong>SUERTE</strong><br>ganas automaticamente
+    </p>
+    <img src="nuri.png" alt="Nuri de la Suerte" class="nuri-img">
+  </div>
 
   <script>
     const notas = ["Do", "Do♯/Re♭", "Re", "Re♯/Mi♭", "Mi", "Fa", "Fa♯/Sol♭", "Sol", "Sol♯/La♭", "La", "La♯/Si♭", "Si"];
@@ -131,3 +161,4 @@
 
 </body>
 </html>
+
