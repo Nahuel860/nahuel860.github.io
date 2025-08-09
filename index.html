@@ -65,9 +65,9 @@
 
     .contenido {
       border: 3px solid #f99fc9;
-      border-radius: 20px;
-      width: 160px;
-      height: 100px;
+      border-radius: 12px;
+      width: 155px;
+      height: 155px;
       background: white;
       display: flex;
       align-items: center;
@@ -112,7 +112,7 @@
     }
 
     .nuri-text {
-      font-size: 1.4em;
+      font-size: 1.45em;
       color: #e08bb7;
       font-family: 'Courier New', monospace;
       margin-bottom: 10px;
@@ -123,7 +123,7 @@
     }
 
     .nuri-img {
-      width: 140px;
+      width: 160px;
       border: 3px solid #f99fc9;
       border-radius: 12px;
     }
@@ -132,7 +132,7 @@
 <body>
    <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
-  <h1><span class="nota">🎵</span> Nuri "dice" que practiques... <span class="nota">🎵</span></h1>
+  <h1><span class="nota">🎵</span> Nuri "dice" que practiques: <span class="nota">🎵</span></h1>
 
   <div class="contenedor">
     <div class="bloque">
@@ -148,8 +148,12 @@
       <div class="contenido" id="ritmo"></div>
     </div>
     <div class="bloque">
-      <div class="titulo">Movimiento</div>
+      <div class="titulo">Intervalo</div>
       <div class="contenido" id="movimiento"></div>
+    </div>
+    <div class="bloque">
+      <div class="titulo">Tempo</div>
+      <div class="contenido" id="tempo"></div>
     </div>
   </div>
 
@@ -158,10 +162,12 @@
   <div class="nuri-section">
     <p class="nuri-text">
         <span class="estrella">✨</span>
-      ¡Si te toca una <strong>NURI de la SUERTE</strong><br>ganas automáticamente y no tenes que practicar nada!
+      ¡Si te toca una <strong>NURI de la SUERTE</strong><br>ganas automáticamente y no tenes que practicar nada!*
         <span class="estrella">✨</span>    
     </p>
     <img src="nuri.png" alt="Nuri de la Suerte" class="nuri-img">
+    <p class="nuri-aclaracion">
+      *no hay forma de que salga una NURI de la SUERTE, ponete a practicar.</p>
   </div>
 
 
@@ -172,9 +178,10 @@
                       "Locria"];
     const ritmos = ["Negras (♩)", "Corcheas (♪)", "Tresillos (♩♩♩)", "Semicorcheas (♬♬)",
                     "♪. ♬", "Síncopa (♪–♩–♪)", "Swing", "Contratiempo"];
-    const movimientos = ["Segundas (escala paso a paso)", "Terceras (Do–Mi–Re–Fa...)", "Cuartas", 
-                         "Quintas", "Saltos de sexta", "Arpegios (I–III–V)"];
-
+    const movimientos = ["2S", "3S", "4S", "5S", "6S", "7S", "8S"
+                         ];
+    const tempos = ["60 BPM", "65 BPM", "70 BPM", "75 BPM", "80 BPM", "85 BPM", "90 BPM", "95 BPM", "100 BPM",
+                    "110 BPM", "120 BPM", "130 BPM", "140 BPM", "150 BPM", "160 BPM"];
     function alAzar(arr) {
       return arr[Math.floor(Math.random() * arr.length)];
     }
@@ -187,6 +194,7 @@
       document.getElementById("escala").textContent = alAzar(escalas);
       document.getElementById("ritmo").textContent = alAzar(ritmos);
       document.getElementById("movimiento").textContent = alAzar(movimientos);
+      document.getElementById("tempo").textContent = alAzar(tempos);
     }
   </script>
 
