@@ -2,8 +2,32 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Generador Musical</title>
+  <title>Nuri "dice"...</title>
+    <link rel="icon" type="image/png" href="dado.png">
+
   <style>
+
+    .nota {
+    display: inline-block;
+    animation: flotar 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes flotar {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+    }
+
+
+    .estrella {
+        animation: brillo 1.2s infinite ease-in-out alternate;
+        display: inline-block;
+    }
+
+    @keyframes brillo {
+        from { opacity: 0.3; transform: scale(1); }
+        to { opacity: 1; transform: scale(1.3); }
+    }
+
     body {
       font-family: 'Courier New', monospace;
       background: #ffeef5;
@@ -60,7 +84,7 @@
     }
 
     button {
-      padding: 12px 30px;
+      padding: 16px 34px;
       font-size: 1.2em;
       background-color: #ffcde1;
       border: none;
@@ -88,7 +112,7 @@
     }
 
     .nuri-text {
-      font-size: 0.9em;
+      font-size: 1.4em;
       color: #e08bb7;
       font-family: 'Courier New', monospace;
       margin-bottom: 10px;
@@ -99,15 +123,16 @@
     }
 
     .nuri-img {
-      width: 100px;
+      width: 140px;
       border: 3px solid #f99fc9;
       border-radius: 12px;
     }
   </style>
 </head>
 <body>
+   <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
-  <h1>🎵 Generador Musical 🎵</h1>
+  <h1><span class="nota">🎵</span> Nuri "dice" que practiques... <span class="nota">🎵</span></h1>
 
   <div class="contenedor">
     <div class="bloque">
@@ -128,20 +153,23 @@
     </div>
   </div>
 
-  <button onclick="generar()">Generar 🎲</button>
+  <button onclick="generar()"><strong>Generar 🎲</strong></button>
 
   <div class="nuri-section">
     <p class="nuri-text">
-      Si te toca un <strong>NURI</strong> de la <strong>SUERTE</strong><br>ganas automaticamente
+        <span class="estrella">✨</span>
+      ¡Si te toca una <strong>NURI de la SUERTE</strong><br>ganas automáticamente y no tenes que practicar nada!
+        <span class="estrella">✨</span>    
     </p>
     <img src="nuri.png" alt="Nuri de la Suerte" class="nuri-img">
   </div>
 
+
   <script>
     const notas = ["Do", "Do♯/Re♭", "Re", "Re♯/Mi♭", "Mi", "Fa", "Fa♯/Sol♭", "Sol", "Sol♯/La♭", "La", "La♯/Si♭", "Si"];
-    const escalas = ["May – Mayor", "Min – Menor natural", "Arm – Menor armónica", "Mel – Menor melódica",
-                     "P. May – Pentatónica mayor", "P. Min – Pentatónica menor", "Blu – Blues",
-                     "Dor – Dórica", "Fri – Frigia", "Lid – Lidia", "Mix – Mixolidia", "Loc – Locria"];
+    const escalas = ["Mayor", "Menor", "Armónica", "Melódica",
+                     "Lidio", "Dórica", "Frigia", "Lidia", "Mixolidia", 
+                      "Locria"];
     const ritmos = ["Negras (♩)", "Corcheas (♪)", "Tresillos (♩♩♩)", "Semicorcheas (♬♬)",
                     "♪. ♬", "Síncopa (♪–♩–♪)", "Swing", "Contratiempo"];
     const movimientos = ["Segundas (escala paso a paso)", "Terceras (Do–Mi–Re–Fa...)", "Cuartas", 
@@ -152,6 +180,9 @@
     }
 
     function generar() {
+        const sonido = document.getElementById("click-sound");
+        sonido.currentTime = 0; // Reinicia por si se hace click muy seguido
+        sonido.play();
       document.getElementById("nota").textContent = alAzar(notas);
       document.getElementById("escala").textContent = alAzar(escalas);
       document.getElementById("ritmo").textContent = alAzar(ritmos);
